@@ -1,2 +1,3 @@
 pandas
 a5-client
+matplotlib
