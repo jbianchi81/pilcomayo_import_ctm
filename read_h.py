@@ -4,12 +4,8 @@ import matplotlib
 
 # importCSV("villamontes.csv", 42291)
 
-# filename = "misionlapaz_4.csv"
-# series_id = 42292
-# value_column = "Altura Horaria (m)"
-# head_skip_lines = 5
 
-def importCSV(filename : str, series_id : int, round_hour_only=True, value_column="Altura Horaria (m)", head_skip_lines=5, plot=False):
+def importCSV(filename : str, series_id : int, round_hour_only=True, value_column="Altura Horaria (m)", head_skip_lines=5, plot=False, save=False):
     data = pandas.read_csv(filename, skiprows=head_skip_lines)
     data["Fecha"].fillna(method="ffill", inplace=True)
     data["timestart"] = pandas.to_datetime(data["Fecha"], format="%d-%m-%Y")
@@ -25,6 +21,7 @@ def importCSV(filename : str, series_id : int, round_hour_only=True, value_colum
     if plot:
         data.plot(y="valor")
         matplotlib.pyplot.show()
-    client.createObservaciones(data, series_id=series_id)
+    if save:
+        client.createObservaciones(data, series_id=series_id)
+    return data
 
-# importCSV("misionlapaz_3.csv", 42292)
